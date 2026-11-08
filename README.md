@@ -41,3 +41,10 @@ because 45 seconds is below 60, so the minute count is 0. This is intentional
 and consistent with the rule above; if you find it awkward, raise the
 threshold (e.g. `Thresholds(minute=60)`) so seconds are used up to a full
 minute.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
